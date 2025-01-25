@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Automation Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    />
+    <link rel="stylesheet" href="adminPage.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+  <body>
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Criando nova automação...</p>
+    </div>
+
+    <div id="loading_update">
+      <div class="spinner"></div>
+      <p>Atualizando automação...</p>
+    </div>
+
+    <div id="loading_general">
+      <div class="spinner"></div>
+      <p>Carregando...</p>
+    </div>
+
+    <div id="errorPopup" class="error-popup" style="display: none">
+      <p id="errorPopupMessage"></p>
+    </div>
+
+    <header>
+      <h1>Painel de Controle</h1>
+    </header>
+
+    <main>
+      <section class="actions">
+        <div class="primary-actions">
+          <button class="btn" onclick="redirectToLogin()">
+            <span>Login</span>
+          </button>
+          <button class="btn settings" onclick="openMotivosModal()">
+            <span>Configurações</span>
+          </button>
+        </div>
+        <div class="secondary-actions">
+          <button class="btn refresh" onclick="fetchAutomations()">
+            <span>Atualizar</span>
+          </button>
+          <button class="btn primary" onclick="openModal()">
+            <span>Nova Automação</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="table-container">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Cargo</th>
+                <th>Departamento</th>
+                <th>Limite por Depto</th>
+                <th>Total de Chamados</th>
+                <th>Status de Transferência</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="automation-list">
+              <!-- Rows will be dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <td class="action-buttons">
+        <button class="action-btn edit" data-tooltip="Editar" onclick="editItem()">
+          <svg><!-- Edit icon SVG --></svg>
+        </button>
+        <button class="action-btn activate" data-tooltip="Ativar" onclick="activateItem()">
+          <svg><!-- Activate icon SVG --></svg>
+        </button>
+        <button class="action-btn delete" data-tooltip="Deletar" onclick="deleteItem()">
+          <svg><!-- Delete icon SVG --></svg>
+        </button>
+      </td>
+      
+    </main>
+
+    <button class="floating-btn" onclick="openModal()" title="Nova Automação">+</button>
+
+    <!-- Modal for creating new automation -->
+    <div id="createModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">×</span>
+        <h2>Nova Automação</h2>
+        <div class="modal-content-scroll">
+          <!-- Name Field with Label -->
+          <div class="form-group">
+            <label for="automationName">Nome</label>
+            <input
+              type="text"
+              id="automationName"
+              placeholder="Digite o nome da automação"
+            />
+          </div>
+
+          <!-- Scheduling Field with Label -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="cronInput">Frequência</label>
+              <button type="button" class="info-button" data-info="frequency-info">i</button>
+            </div>
+            <input
+              type="text"
+              id="cronInput"
+              placeholder="Clique para configurar frequência da automação"
+              readonly
+              onclick="openCronModal()"
+            />
+          </div>
+
+          <!-- Department Dropdown with Label -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="departmentDropdown">Departamento</label>
+              <button type="button" class="info-button" data-info="department-info">i</button>
+            </div>
+            <select id="departmentDropdown">
+              <option value="">Selecione o departamento</option>
+            </select>
+          </div>
+
+          <!-- Role Dropdown with Label -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="roleDropdown">Cargo</label>
+              <button type="button" class="info-button" data-info="role-info">i</button>
+            </div>
+            <select id="roleDropdown">
+              <option value="">Selecione o cargo</option>
+            </select>
+          </div>
+
+          <!-- Combined Total Tickets Field and Checkbox -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="totalTickets">Quantidade de chamados</label>
+              <button type="button" class="info-button" data-info="tickets-info">i</button>
+            </div>
+            <input
+              type="text"
+              id="totalTickets"
+              placeholder="Máximo de chamados distribuídos para o usuário"
+            />
+            <span class="help-text">O usuário irá parar de receber transferências ao atingir este limite</span>
+
+           
+          </div>
+
+           <!-- Checkbox Field -->
+           <div class="form-group">
+           <div class="inline-checkbox">
+            <div class="label-group">
+              <label for="ticketByDepartment">Limite por departamento?</label>
+              <button type="button" class="info-button" data-info="limit-info">i</button>
+            </div>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="ticketByDepartment">
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-status">Não</span>
+            </div>
+          </div>
+        </div>
+
+          <!-- Message Field -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="message">Mensagem</label>
+              <button type="button" class="info-button" data-info="message-info">i</button>
+            </div>
+            <input type="text" id="message" placeholder="Mensagem para envio." />
+            <span class="help-text">Use a variável <code>{{nome_usuario}}</code> para incluir o nome do atendente na mensagem</span>
+          </div>
+
+          <!-- Status Field -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="transferStatus">Status apto para transferência</label>
+              <button type="button" class="info-button" data-info="status-info">i</button>
+            </div>
+            <div id="transferStatus" class="checkbox-group">
+              <input type="checkbox" id="all" value="all">
+              <label for="all">Todos</label>
+              
+              <input type="checkbox" id="offline" value="offline">
+              <label for="offline">Offline</label>
+              
+              <input type="checkbox" id="away" value="away">
+              <label for="away">Ausente</label>
+              
+              <input type="checkbox" id="online" value="online">
+              <label for="online">Online</label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button id="saveButton" class="btn create" onclick="saveAutomation()">
+            Salvar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Modal -->
+    <div id="updateModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeUpdateModal()">×</span>
+        <h2>Editar Automação</h2>
+        <div class="modal-content-scroll">
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="updateAutomationName">Nome</label>
+            <input
+              type="text"
+              id="updateAutomationName"
+              placeholder="Digite o nome da automação"
+            />
+          </div>
+
+          <!-- Cron Field (Read-only with hover tooltip) -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="updateCronInput">Frequência</label>
+              <button type="button" class="info-button" data-info="frequency-info">i</button>
+            </div>
+            <input
+              type="text"
+              id="updateCronInput"
+              readonly
+              class="tooltip-hover"
+            />
+            <div id="cronError" class="hide" style="color: rgb(255, 145, 0); margin-top: 5px">
+              Esse campo não é editável, crie uma nova automação para editá-lo.
+            </div>
+          </div>
+
+          <!-- Department Dropdown -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="updateDepartmentDropdown">Departamento</label>
+              <button type="button" class="info-button" data-info="department-info">i</button>
+            </div>
+            <select id="updateDepartmentDropdown">
+              <option value="">Selecione o departamento</option>
+            </select>
+          </div>
+
+          <!-- Role Dropdown -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="updateRoleDropdown">Cargo</label>
+              <button type="button" class="info-button" data-info="role-info">i</button>
+            </div>
+            <select id="updateRoleDropdown">
+              <option value="">Selecione o cargo</option>
+            </select>
+          </div>
+
+          <!-- Total Tickets Field -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="updateTotalTickets">Quantidade de chamados</label>
+              <button type="button" class="info-button" data-info="tickets-info">i</button>
+            </div>
+            <input
+              type="text"
+              id="updateTotalTickets"
+              placeholder="Máximo de chamados distribuídos para o usuário"
+            />
+          </div>
+
+                      <!-- Checkbox Field -->
+                      <div class="form-group">
+            <div class="inline-checkbox">
+              <div class="label-group">
+                <label for="updateTicketByDepartment">Limite por departamento?</label>
+                <button type="button" class="info-button" data-info="limit-info">i</button>
+              </div>
+              <div class="toggle-container">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="updateTicketByDepartment">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-status">Não</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message Field -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="updateMessage">Mensagem</label>
+              <button type="button" class="info-button" data-info="message-info">i</button>
+            </div>
+            <input
+              type="text"
+              id="updateMessage"
+              placeholder="Mensagem para envio."
+            />
+            <span class="help-text">Use a variável <code>{{nome_usuario}}</code> para incluir o nome do atendente na mensagem</span>
+          </div>
+
+          <!-- Transfer Status -->
+          <div class="form-group">
+            <div class="label-group">
+              <label for="updateTransferStatus">Status apto para transferência</label>
+              <button type="button" class="info-button" data-info="status-info">i</button>
+            </div>
+            <div id="updateTransferStatus" class="checkbox-group">
+              <input type="checkbox" id="updateAll" value="all">
+              <label for="updateAll">Todos</label>
+              
+              <input type="checkbox" id="updateOffline" value="offline">
+              <label for="updateOffline">Offline</label>
+              
+              <input type="checkbox" id="updateAway" value="away">
+              <label for="updateAway">Ausente</label>
+              
+              <input type="checkbox" id="updateOnline" value="online">
+              <label for="updateOnline">Online</label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button id="updateButton" class="btn create" onclick="updateAutomation()">
+            Atualizar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cron Modal -->
+    <div id="cronModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeCronModal()">×</span>
+        <h2>Configurar Horários</h2>
+        <div class="modal-content-scroll">
+          <!-- Days of the Week Selection -->
+          <div class="form-section">
+            <div class="section-header">
+              <h3>Dias da Semana</h3>
+              <span class="section-subtitle">Selecione os dias em que a automação estará ativa</span>
+            </div>
+            <div class="ios-checkbox-group">
+              <label class="ios-checkbox">
+                <input type="checkbox" id="cronMonday" value="1">
+                <span class="checkbox-label">Segunda-feira</span>
+                <span class="checkbox-toggle"></span>
+              </label>
+              <label class="ios-checkbox">
+                <input type="checkbox" id="cronTuesday" value="2">
+                <span class="checkbox-label">Terça-feira</span>
+                <span class="checkbox-toggle"></span>
+              </label>
+              <label class="ios-checkbox">
+                <input type="checkbox" id="cronWednesday" value="3">
+                <span class="checkbox-label">Quarta-feira</span>
+                <span class="checkbox-toggle"></span>
+              </label>
+              <label class="ios-checkbox">
+                <input type="checkbox" id="cronThursday" value="4">
+                <span class="checkbox-label">Quinta-feira</span>
+                <span class="checkbox-toggle"></span>
+              </label>
+              <label class="ios-checkbox">
+                <input type="checkbox" id="cronFriday" value="5">
+                <span class="checkbox-label">Sexta-feira</span>
+                <span class="checkbox-toggle"></span>
+              </label>
+              <label class="ios-checkbox">
+                <input type="checkbox" id="cronSaturday" value="6">
+                <span class="checkbox-label">Sábado</span>
+                <span class="checkbox-toggle"></span>
+              </label>
+              <label class="ios-checkbox">
+                <input type="checkbox" id="cronSunday" value="0">
+                <span class="checkbox-label">Domingo</span>
+                <span class="checkbox-toggle"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Time Selection -->
+          <div class="form-section">
+            <div class="section-header">
+              <h3>Horário de Funcionamento</h3>
+              <span class="section-subtitle">Configure o período de atividade da automação (até XX:00)</span>
+            </div>
+
+            <div class="ios-time-inputs">
+              <div class="time-input-group">
+                <label for="cronStartHour">Horário Inicial</label>
+                <div class="time-picker">
+                  <input
+                    type="number"
+                    id="cronStartHour"
+                    min="0"
+                    max="23"
+                    placeholder="00"
+                  />
+                  <span class="time-suffix">:00</span>
+                </div>
+              </div>
+              <div class="time-separator">
+                <span>até</span>
+              </div>
+              <div class="time-input-group">
+                <label for="cronEndHour">Horário Final</label>
+                <div class="time-picker">
+                  <input
+                    type="number"
+                    id="cronEndHour"
+                    min="0"
+                    max="23"
+                    placeholder="23"
+                  />
+                  <span class="time-suffix">:00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Period Button -->
+            <button class="btn add-period" onclick="addCronRule()">
+              Adicionar Período
+            </button>
+          </div>
+
+          <!-- Rules Display -->
+          <div class="form-section">
+            <div class="section-header">
+              <h3>Períodos Configurados</h3>
+              <span class="section-subtitle">Selecione um período para a automação</span>
+            </div>
+            <div id="cronRulesContainer" class="cron-rules-list"></div>
+          </div>
+
+          <!-- Save Button -->
+          <button class="btn primary" onclick="generateCron()">
+            Salvar Configuração
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="workflowInfoModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeWorkflowInfoModal()">×</span>
+        <h2>Informações da Automação</h2>
+        <div id="workflowInfoDetails"></div>
+      </div> </div>
+
+      <div id="motivosModal" class="modal">
+        <div class="modal-content">
+          <!-- Close Button -->
+          <span class="close-btn" onclick="closeMotivosModal()">×</span>
+          <h2>Configurar Motivos</h2>
+
+          <!-- Add Motivo Input -->
+          <div class="form-group">
+            <label for="motivoInput">Adicionar novo motivo</label>
+            <input type="text" id="motivoInput" placeholder="Digite o motivo" />
+            <button class="btn add" onclick="addMotivo()">Adicionar</button>
+          </div>
+
+          <!-- List of Motivos -->
+          <div class="form-group">
+            <h3>Motivos Configurados</h3>
+            <ul id="motivosList"></ul>
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Save Button -->
+          <button class="btn save" onclick="saveMotivos()">
+            Salvar Motivos
+          </button>
+        </div>
+      </div>
+    </div>
+
+      <!-- Motivos Modal -->
+
+
+    <script src="adminPage.js"></script>
+  </body>
+</html>

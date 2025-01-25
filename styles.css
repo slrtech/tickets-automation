@@ -1,0 +1,569 @@
+/* General Styling: Center the body content vertically and horizontally and set a background color */
+/* General Styling */
+body {
+  font-family: 'SF Pro Display', 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1e2a32;  /* Your dark background */
+  color: #e0f4f1;  /* Light text for readability */
+  transition: background-color 0.4s ease-in-out;
+}
+/* Main container styling */
+.container {
+  background: #24313a;  /* Slightly lighter background for the container */
+  border-radius: 16px;  /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);  /* Subtle shadow for depth */
+  padding: 36px;  /* Increased from 34px */
+  text-align: center;  /* Center text inside the container */
+  width: 357px;  /* Increased from 340px */
+}
+
+/* Logo styling */
+header .logo img {
+  max-width: 100%;  /* Responsive width for the logo */
+  height: auto;  /* Maintain aspect ratio */
+  margin-bottom: 20px;  /* Spacing below the logo */
+}
+
+/* Heading styling */
+h2 {
+  font-size: 1.34rem;  /* Increased from 1.275rem */
+  margin-bottom: 20px;  /* Spacing below the heading */
+  color: #a3d2d2;  /* Light blue color for emphasis */
+}
+
+/* Form styling: Use flex layout for stacked form inputs */
+.form {
+  display: flex;
+  flex-direction: column;  /* Stack form inputs vertically */
+  gap: 20px;  /* Spacing between form elements */
+}
+
+/* Form input fields */
+.form input {
+  padding: 10.5px;  /* Increased from 10px */
+  border: 1px solid #3a4a52;  /* Border color matching theme */
+  border-radius: 7.35px;  /* Increased from 7px */
+  font-size: 0.89rem;  /* Increased from 0.85rem */
+  background: #2e3d45;  /* Dark background for form fields */
+  color: #e0f4f1;  /* Light text color for readability */
+  transition: border-color 0.3s;  /* Smooth transition for border color change */
+}
+
+.form input:focus {
+  border-color: #339989;  /* Highlighted border color when focused */
+  outline: none;  /* Remove default outline */
+}
+
+/* Buttons container styling */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Button group for "Ativar" and "Desativar" buttons (side-by-side) */
+.button-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Centering the "Dashboard Administrador" button */
+.dashboard-button-wrapper {
+  display: flex;
+  justify-content: center;  /* Center the button horizontally */
+  width: 100%;  /* Full width for the wrapper */
+}
+
+/* Styling for the "Dashboard Administrador" button */
+#adminDashboardButton {
+  width: 100%;
+  margin-top: 8px;
+  background-color: rgba(51, 153, 137, 0.9);
+}
+
+/* Primary button styling (e.g., login, confirm actions) */
+.btn-primary {
+  width: 100%;
+  padding: 12.6px 21px;  /* Increased from 12px 20px */
+  border-radius: 10.5px;  /* Increased from 10px */
+  font-size: 13.65px;  /* Increased from 13px */
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  background-color: #339989;
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Secondary button styling (e.g., "Desativar Distribuição") */
+.btn-secondary {
+  width: 100%;
+  padding: 12.6px 21px;  /* Increased from 12px 20px */
+  border-radius: 10.5px;  /* Increased from 10px */
+  font-size: 13.65px;  /* Increased from 13px */
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  background-color: rgba(82, 122, 109, 0.8);
+  color: white;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+/* Loading overlay styling (full screen with spinner) */
+.loading-overlay {
+  display: flex;  /* Flex layout to center content */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;  /* Center vertically */
+  height: 100vh;  /* Full viewport height */
+  width: 100vw;  /* Full viewport width */
+  background: rgba(30, 42, 50, 0.9);  /* Semi-transparent background */
+  position: fixed;  /* Fixed to the screen */
+  top: 0;
+  left: 0;
+  z-index: 9999;  /* High z-index to overlay on top of everything */
+}
+
+/* Spinner styling for loading animation */
+.spinner {
+  border: 7.35px solid #f3f3f3;  /* Increased from 7px */
+  border-top: 7.35px solid #339989;  /* Green spinning part */
+  border-radius: 50%;  /* Circular shape */
+  width: 44px;  /* Increased from 42px */
+  height: 44px;  /* Increased from 42px */
+  animation: spin 1s linear infinite;  /* Smooth continuous spin */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);  /* Start angle */
+  }
+  100% {
+    transform: rotate(360deg);  /* Full rotation */
+  }
+}
+
+/* Fade-in animation for modal appearance */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Ensure the modal is aligned properly even if content overflows */
+body {
+  overflow: hidden;  /* Prevent background scrolling when modal is open */
+}
+
+.hidden {
+  display: none;  /* Ensures the element is hidden completely */
+}
+
+/* Modal overlay with subtle blur effect */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(15px) brightness(0.4);  /* Subtle blur effect */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+  padding-top: 60px;  /* Space at the top for modal */
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Modal Content */
+.modal-content {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  background: #24313a;  /* Your container background */
+  padding: 28.35px;  /* Increased from 27px */
+  border-radius: 16px;  /* Rounded corners */
+  width: 100%;
+  max-width: 357px;  /* Increased from 340px */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);  /* Soft shadow for depth */
+  text-align: center;
+  animation: fadeScaleIn 0.4s ease-out;
+  position: fixed;
+}
+
+/* Label Styling */
+.modal-content label {
+  display: block;
+  margin-bottom: 7.35px;  /* Increased from 7px */
+  font-size: 0.89rem;  /* Increased from 0.85rem */
+  font-weight: 500;
+  color: #d4e9d5;  /* Slightly lighter text for labels */
+}
+
+/* Dropdown Styling */
+.modal-content select {
+  width: 100%;
+  padding: 10.5px;  /* Increased from 10px */
+  border-radius: 10.5px;  /* Increased from 10px */
+  border: 1px solid #3a4a52;  /* Darker border color */
+  background: #2e3d45;  /* Form field background */
+  color: #e0f4f1;  /* Light text */
+  margin-bottom: 17.85px;  /* Increased from 17px */
+  font-size: 0.89rem;  /* Increased from 0.85rem */
+  transition: border-color 0.2s ease-in-out;
+}
+
+.modal-content select:focus {
+  border-color: #339989;  /* Your green accent color */
+  outline: none;
+}
+
+/* Primary Button */
+.modal-content button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #339989;  /* Your primary green */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.modal-content button:hover {
+  background-color: #2a7f7b;  /* Darker green on hover */
+}
+
+/* Close Button ("X") */
+
+
+.btn-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  color: #b0c7c5;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  color: #f2baba;
+}
+
+/* Fade and Scale Animation */
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Loading Spinner Overlay */
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(30, 42, 50, 0.9);  /* Dark semi-transparent background */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.spinner {
+  border: 7.35px solid #f3f3f3;  /* Increased from 7px */
+  border-top: 7.35px solid #339989;  /* Your green spinner */
+  border-radius: 50%;
+  width: 44px;  /* Increased from 42px */
+  height: 44px;  /* Increased from 42px */
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom reason modal styling */
+/* Centering the input field inside the modal content */
+.custom-reason-modal {
+  display: flex;
+  flex-direction: column;  /* Stack elements vertically */
+  align-items: center;  /* Center horizontally */
+  justify-content: center;  /* Center vertically */
+  padding: 28.35px;  /* Increased from 27px */
+  border-radius: 16px;
+  text-align: center;
+  background-color: #24313a;
+  color: #e0f4f1;
+  width: 100%;  /* Takes 100% of the available space */
+  max-width: 205px;  /* Increased from 195px */
+}
+
+.apple-style-input {
+  width: 80%;  /* Smaller width to make it look sleek */
+  max-width: 300px;  /* Prevent the input from growing too large */
+  padding: 10.5px;  /* Increased from 10px */
+  font-size: 0.98rem;  /* Increased from 0.935rem */
+  border-radius: 10.5px;  /* Increased from 10px */
+  border: 1px solid #3a4a52;
+  background-color: #2e3d45;
+  margin-bottom: 17.85px;  /* Increased from 17px */
+  color: #e0f4f1;
+}
+
+.apple-style-input::placeholder {
+  color: #93a1a1;
+}
+
+.apple-style-input:focus {
+  border-color: #339989;
+  outline: none;
+  background-color: #2a363e;
+}
+
+.custom-reason-modal .btn-primary {
+  width: 80%;  /* Same width as the input for consistency */
+  max-width: 300px;
+  padding: 12px;
+  background-color: #339989;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.custom-reason-modal h3 {
+  margin-bottom: 14.7px;  /* Increased from 14px */
+  font-size: 1.11rem;  /* Increased from 1.06rem */
+  font-weight: 600;
+  color: #a3d2d2;
+}
+
+/* Center close button */
+.custom-reason-modal .btn-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  color: #b0c7c5;
+  cursor: pointer;
+}
+
+.custom-reason-modal .btn-close:hover {
+  color: #f2baba;
+}
+
+/* Updated roles list styling */
+.roles-list {
+  margin-top: 21px;
+  padding: 16px;
+  background: rgba(46, 61, 69, 0.6);
+  border-radius: 10.5px;
+  font-size: 12.6px;
+  line-height: 1.4;
+  color: #e0f4f1;
+  text-align: center;
+}
+
+.roles-header {
+  margin-bottom: 12px;
+  color: #e0f4f1;
+  font-weight: 500;
+}
+
+.roles-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Role item styling */
+.role {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px;
+  padding: 6px 12px;
+  background: rgba(51, 153, 137, 0.2);
+  border: 1px solid rgba(51, 153, 137, 0.3);
+  border-radius: 7.35px;
+  font-size: 11.55px;
+  color: #a3d2d2;
+  transition: all 0.2s ease;
+}
+
+.role:hover {
+  background: rgba(51, 153, 137, 0.3);
+  transform: translateY(-1px);
+}
+
+.roles-empty {
+  color: #93a1a1;
+  font-style: italic;
+}
+
+/* Updated page title styling */
+#pageTitle {
+  font-size: 17.85px;  /* Increased from 17px */
+  font-weight: 600;
+  color: #e0f4f1;
+  margin-bottom: 21px;  /* Increased from 20px */
+  letter-spacing: -0.5px;
+}
+
+/* Add specific styling for post-login state */
+.login-wrapper.logged-in {
+  margin-top: -20px;  /* Reduce space from top after login */
+}
+
+/* Adjust logo spacing in logged-in state */
+.logged-in .logo img {
+  margin-bottom: 10px;  /* Reduced margin for logged-in state */
+}
+
+/* Tooltip styling */
+.btn-secondary[disabled] {
+  position: relative;
+}
+
+.btn-secondary[disabled]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+/* SweetAlert Custom Styling */
+.custom-alert-popup {
+    font-size: 0.87em !important;  /* Increased from 0.835em */
+    padding: 1.74rem !important;  /* Increased from 1.67rem */
+    width: 28.6em !important;  /* Increased from 27.5em */
+    max-width: 90% !important;
+    background: #ffffff !important;  /* Changed to white */
+    border-radius: 11px !important;  /* Increased from 10.5px */
+    color: #333333 !important;  /* Dark text for white background */
+}
+
+.custom-alert-button {
+    font-size: 0.87em !important;  /* Increased from 0.835em */
+    padding: 0.87em 1.74em !important;  /* Increased from 0.835em 1.67em */
+    border-radius: 7.7px !important;  /* Increased from 7.35px */
+    background-color: #339989 !important;  /* Keep the theme color */
+    color: white !important;
+}
+
+.swal2-title {
+    color: #333333 !important;  /* Dark text for white background */
+    font-size: 1.53em !important;  /* Increased from 1.47em */
+    text-align: center !important;
+}
+
+.swal2-html-container {
+    color: #666666 !important;  /* Slightly lighter text for content */
+    font-size: 1.02em !important;  /* Increased from 0.98em */
+    text-align: center !important;
+}
+
+.swal2-content {
+    text-align: center !important;
+    color: #666666 !important;  /* Slightly lighter text for content */
+}
+
+.swal2-icon {
+    transform: scale(0.97) !important;  /* Increased from 0.935 */
+}
+
+/* Add hover effect for the button */
+.custom-alert-button:hover {
+    background-color: #2a7f7b !important;  /* Darker shade on hover */
+    transform: translateY(-1px) !important;
+}
+
+/* Add styles for the close button */
+.swal2-close {
+    color: #666666 !important;
+}
+
+.swal2-close:hover {
+    color: #333333 !important;
+}
+
+/* Add these styles to handle the transition */
+#email, #password, #login, #pageTitle {
+    transition: display 0s, opacity 0.3s ease-out;
+}
+
+.hidden-immediately {
+    display: none !important;
+    opacity: 0;
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div id="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Carregando...</p>
+    </div>
+
+    <div>
+      <div class="container">
+        <header>
+          <div class="logo">
+            <img src="condfyNew.png" alt="Company Logo" />
+          </div>
+        </header>
+
+        <main class="login-wrapper">
+          <h2 id="pageTitle">Login Automação de Chamados</h2>
+          <form id="loginForm" class="form">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email da URL"
+              required
+            />
+            <input
+              type="password"
+              id="password"
+              placeholder="Password da URL"
+              required
+            />
+            <button
+              class="btn-primary"
+              type="button"
+              id="login"
+              onclick="loginAndActivate()"
+            >
+              Login
+            </button>
+          </form>
+
+          <div id="activationButtons" class="action-buttons hidden">
+            <div class="button-group">
+              <button class="btn-secondary" onclick="activateAccount()">
+                Ativar Distribuição
+              </button>
+              <button class="btn-secondary" onclick="deactivateAccount()">
+                Desativar Distribuição
+              </button>
+            </div>
+            <div class="dashboard-button-wrapper">
+              <button
+                id="adminDashboardButton"
+                class="btn-primary hidden"
+                onclick="redirectToAdminDashboard()"
+              >
+                Dashboard Administrador
+              </button>
+            </div>
+          </div>
+
+          <div id="rolesList" class="roles-list hidden"></div>
+        </main>
+      </div>
+      <!-- Modals -->
+      <div id="deactivateModal" class="modal hidden">
+        <div class="modal-content">
+          <label for="reason">Selecione o motivo:</label>
+          <select id="reason" required>
+            <option value="Almoço">Almoço</option>
+            <option value="Reunião">Reunião</option>
+            <option value="Pausas pessoais">Pausas pessoais</option>
+            <option value="Acessos agendados">Acessos agendados</option>
+            <option value="Fim-do-expediente">Fim do expediente</option>
+            <option value="Outros">Outros</option>
+          </select>
+          <label for="selector1"
+            >Selecione o departamento de desativação:</label
+          >
+          <select id="selector1" required>
+            
+          </select>
+          <button class="btn-primary" onclick="confirmDeactivation()">
+            Confirmar Desativação
+          </button>
+          <span class="btn-close" onclick="closeModal('deactivateModal')">×</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal for custom reason input -->
+<div id="customReasonModal" class="modal hidden">
+  <div class="modal-content custom-reason-modal">
+    <h3>Informe o motivo</h3>
+    <input
+      id="customReasonInput"
+      type="text"
+      placeholder="Digite o motivo"
+      class="apple-style-input"
+    />
+    <button class="btn-primary" onclick="submitCustomReason()">Confirmar</button>
+    <span class="btn-close" onclick="closeModal('customReasonModal')">×</span>
+  </div>
+</div>
+
+
+
+
+      <div id="departmentModal" class="modal hidden">
+        <div class="modal-content">
+          <label for="selector2">Selecione o departamento de ativação:</label>
+          <select id="selector2" required>
+            
+          </select>
+          <button class="btn-primary" onclick="confirmActivation()">
+            Confirmar Ativação
+          </button>
+            <span class="btn-close" onclick="closeModal('departmentModal')">×</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+<script src="script.js"></script>
+  </body>
+</html>
