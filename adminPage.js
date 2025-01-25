@@ -3,7 +3,7 @@ let cronExpression = '';        // Raw cron expression
 
 // Function to redirect to another HTML file
 function redirectToLogin() {
-  window.location.href = "index.html"; // Replace with the actual HTML file name
+  window.location.href = "${window.location.origin}/tickets-automation/index.html"; // Replace with the actual HTML file name
 }
 // Fetch automation data from API and populate the table
 function fetchAutomations() {
