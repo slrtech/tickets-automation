@@ -72,7 +72,7 @@ function loginAndActivate() {
 }
 
 function redirectToAdminDashboard() {
-    window.location.href = `${window.location.origin}/adminPage.html`;
+    window.location.href = `${window.location.origin}/tickets-automation/adminPage.html`;
 }
 
 function displayRoles(roles, automationsResponse) {
