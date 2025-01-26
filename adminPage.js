@@ -102,10 +102,10 @@ function populateTable(automations) {
     // Status with badge
     const statusCell = document.createElement('td');
     const statusBadge = document.createElement('span');
-    statusBadge.classList.add('status-badge', automation.active === 'true' ? 'active' : 'inactive');
+    statusBadge.classList.add('status-badge', automation.active === true ? 'active' : 'inactive');
     statusBadge.innerHTML = `
       <span class="status-dot"></span>
-      ${automation.active === 'true' ? 'Ativo' : 'Inativo'}
+      ${automation.active === true ? 'Ativo' : 'Inativo'}
     `;
     statusCell.appendChild(statusBadge);
     row.appendChild(statusCell);
@@ -161,7 +161,7 @@ function populateTable(automations) {
 
     // Toggle button
     const toggleButton = document.createElement('button');
-    toggleButton.classList.add('action-btn', automation.active === 'true' ? 'deactivate' : 'activate');
+    toggleButton.classList.add('action-btn', automation.active === true ? 'deactivate' : 'activate');
     toggleButton.innerHTML = `
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/>
@@ -169,7 +169,7 @@ function populateTable(automations) {
       </svg>
     `;
     toggleButton.onclick = () => {
-      automation.active === 'true' ? deactivateAutomation(automation.id) : activateAutomation(automation.id);
+      automation.active === true ? deactivateAutomation(automation.id) : activateAutomation(automation.id);
     };
 
     // Edit button
