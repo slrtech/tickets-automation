@@ -27,9 +27,6 @@ function loginAndActivate() {
         return response.json();
     }).then(data => {
         loggedInUser = data;
-        // Store credentials after successful login
-        sessionStorage.setItem('userCredentials', JSON.stringify(credentials));
-
         // Fetch automations first
         fetch('https://app.integracao.cloud/webhook/messageDistribution/list', {
             headers: {
@@ -396,24 +393,3 @@ function showAlert(options) {
 
 const loadingElement = document.getElementById("loading");
 loadingElement.style.display = "none";
-
-// Add this function to check for stored credentials on page load
-function checkStoredCredentials() {
-    const storedCredentials = sessionStorage.getItem('userCredentials');
-    if (storedCredentials) {
-        // Hide login form immediately before filling credentials
-        document.getElementById("email").style.display = "none";
-        document.getElementById("password").style.display = "none";
-        document.getElementById("login").style.display = "none";
-        document.getElementById('pageTitle').style.display = "none";
-
-        // Fill credentials and login
-        const { email, password } = JSON.parse(storedCredentials);
-        document.getElementById("email").value = email;
-        document.getElementById("password").value = password;
-        loginAndActivate(); // Automatically login with stored credentials
-    }
-}
-
-// Add this line at the end of the file
-window.onload = checkStoredCredentials;
