@@ -867,7 +867,7 @@ function saveAutomation() {
   // Prepare payload
   const automationData = {
     name,
-    cron, // Raw cron expression
+    cron: Array.isArray(cron) ? cron : [cron],
     cronDescription, // User-friendly cron text
     departmentId,
     departmentName,
