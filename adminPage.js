@@ -889,12 +889,17 @@ function saveAutomation() {
     body: JSON.stringify(automationData)
   })
     .then(response => {
-      if (!response.ok) {
-        return response.json().then(errorData => {
-          throw new Error(errorData.message || 'Erro desconhecido.');
-        });
-      }
-      return response.json();
+      return response.json().then(data => {
+        // Check for error in response body even if HTTP status is 200
+        if (data.error_code === 'AUTOMATION_LIMIT_REACHED') {
+          throw new Error(data.status || 'Limite de automações atingido. Verifique seu plano.');
+        }
+        // Handle other HTTP errors
+        if (!response.ok) {
+          throw new Error(data.status || data.message || 'Erro desconhecido.');
+        }
+        return data;
+      });
     })
     .then(data => {
       console.log('Distribuição criada:', data);
@@ -1118,7 +1123,7 @@ function updateAutomation() {
   const automationData = {
     id: automationId, // Include the automation ID
     name,
-    cron,
+    cron: Array.isArray(cron) ? cron : [cron],
     cronDescription, // User-friendly cron text
     departmentId,
     departmentName,
